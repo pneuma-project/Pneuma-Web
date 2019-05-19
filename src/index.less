@@ -1,0 +1,278 @@
+* {
+  font-size: 10px;
+}
+
+body {
+  background-color: #ececec;
+  /* background-color: #FFFFFF; */
+}
+
+/**
+* 工具类
+*/
+
+.text-overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.line-clamp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.relative-picker-container {
+  position: relative;
+}
+
+/**
+页面样式
+*/
+
+.logo-header {
+  display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
+  height: 64px;
+  padding-left: 10px;
+  margin-right: 20px;
+  border-bottom: .5px solid rgba(255, 255, 255, .4);
+  .logo {
+    height: 36px;
+    width: 36px;
+  }
+  .name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    div:last-child {
+      font-weight: 200;
+      color: rgba(255, 255, 255, .6)
+    }
+  }
+}
+
+.header h1 {
+  color: white;
+}
+
+.page-layout {
+  min-height: 600px;
+}
+
+.content-header {
+  padding: 10px 0;
+}
+
+.content-header .title {
+  font-size: 22px;
+  font-weight: 600;
+  padding-right: 20px;
+}
+
+.content-header .header-search {
+  width: 200px;
+}
+
+.content-header .btn-groups {
+  float: right;
+}
+
+.content-header .btn-groups button {
+  margin: 0 10px;
+}
+
+.filter {
+  padding: 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  /*border-bottom: 1px solid #f2f2f2;*/
+  margin: 10px 0;
+}
+
+.filter .title {
+  padding-right: 10px;
+  font-size: 16px;
+}
+
+.card-groups {
+  padding-top: 20px;
+}
+
+.card-groups .ant-card {
+  margin-bottom: 20px;
+}
+
+.card-groups .ant-card-head {
+  background-color: #efefef;
+}
+
+/*类型区域的
+* 商品库下方的菜单部分组件都使用这个类 */
+
+.category-badge {
+  line-height: 40px;
+  height: 40px;
+  margin-right: 20px;
+  margin-bottom: 5px;
+  background: #f2f2f2;
+  padding: 0 8px;
+  border-radius: 5px;
+}
+
+.category-badge>span {
+  margin-right: 8px;
+}
+
+.category-badge button {
+  border: none;
+  outline: none;
+  background-color: #f2f2f2;
+}
+
+.ant-upload-select-picture-card i {
+  font-size: 28px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.avatar-uploader,
+.avatar-uploader-trigger,
+.avatar {
+  width: 150px;
+  height: 150px;
+}
+
+.avatar-uploader {
+  display: block;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.avatar-uploader-trigger {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 28px;
+  color: #999;
+}
+
+/*图片上传*/
+
+.single-pic-wrap {
+  position: relative;
+}
+
+.single-pic-wrap .anticon {
+  display: none;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  font-size: 28px;
+  background-color: #f2f2f2;
+  border-radius: 14px;
+}
+
+.single-pic-wrap:hover .anticon {
+  display: inline-block;
+}
+
+/*创建商品*/
+
+.block-title {
+  line-height: 40px;
+  font-size: 16px;
+  border-bottom: 1px solid #a6a6a6;
+  margin-bottom: 20px;
+}
+
+.inventory-edit {
+  font-size: 14px;
+  padding: 0 5px;
+}
+
+/*商品详情*/
+
+.product-detail .ant-row {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.product-detail .ant-col-2 {
+  text-align: right;
+}
+
+/*登陆页面*/
+
+.login-form {
+  width: 300px;
+  margin: 0 auto;
+  margin-top: calc(50vh - 150px);
+  padding: 40px 20px;
+  padding-bottom: 20px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.login-form .login-form-button {
+  width: 260px;
+}
+
+.captcha-img {
+  float: right;
+  vertical-align: middle;
+}
+
+.logout-icon {
+  display: inline-block;
+  float: right;
+  color: #1DA57A;
+  font-size: 14px;
+  /* background-color: #108ee9; */
+  line-height: 1.4;
+  padding: 3px 10px;
+  margin-top: 18px;
+  /* border-radius: 3px; */
+}
+
+/*订单页面*/
+
+.order-info {
+  line-height: 24px;
+}
+
+.order-info .ant-col-6 {
+  font-weight: 500;
+}
+
+.ant-form label {
+  font-size: 12px !important;
+}
+
+/*小圆点*/
+.pointWrap {
+  display: flex;
+  align-items: center;
+}
+.littlePointRed {
+  margin-right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: red;
+}
+.littlePointGreen {
+  margin-right: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #1DA57A;
+}

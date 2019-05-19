@@ -1,0 +1,37 @@
+
+.login {
+  min-width: 100vw;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .login-form-button{
+    background: #0A4DAA;
+    color: #ffffff;
+  }
+
+  // padding: 16px;
+  .login-form {
+    padding: 20px;
+    
+    .header {
+      text-align: center;
+      padding-bottom: 24px;
+      span {
+        font-size: 18px;
+        font-weight: 200;
+        color: #999999;
+        &:first-child {
+          padding-right: 10px;
+          margin-right: 10px;
+          border-right: 1px solid #eee;
+        }
+      }
+    }
+    
+    .ant-form-item:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
