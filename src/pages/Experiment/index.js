@@ -7,6 +7,7 @@ import { Input } from 'antd'
 import moment from 'moment'
 import { axios, auth as Auth } from '../../utils'
 import './index.less'
+import qs from 'qs'
 
 export default class Experiment extends Component {
   state = {
@@ -16,10 +17,14 @@ export default class Experiment extends Component {
   getData = () => {
     const { searchVal, token } = this.state
 
-    console.log(token, '---->auth')
+    let params = {
+      key: searchVal,
+      loginKey: token
+    }
     axios
       .post(
-        `http://pneuma-admin.com/pneuma-manager/web/suck/fog/get/train/data?loginKey=d8a408db6435e135&key=${searchVal}`
+        `http://pneuma-admin.com/pneuma-manager/web/suck/fog/get/train/data`,
+      qs.stringify(params)
       )
       .then((res) => {
         console.log(res)

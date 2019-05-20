@@ -8,17 +8,17 @@ import store from '../redux/store'
 import { userLogOut } from '../redux/actions'
 
 const instance = axios.create({
-  baseURL: '/admin'
+  // baseURL: '/admin'
 })
-// 有token的话就放在请求的头部
-if (store.getState().token) {
-  instance.defaults.headers.common.token = store.getState().token
-}
-// 当 store 发送变化时去更新token值
-store.subscribe(() => {
-  console.log('接受到store的变化')
-  instance.defaults.headers.common.token = store.getState().token
-})
+// // 有token的话就放在请求的头部
+// if (store.getState().token) {
+//   instance.defaults.headers.common.token = store.getState().token
+// }
+// // 当 store 发送变化时去更新token值
+// store.subscribe(() => {
+//   console.log('接受到store的变化')
+//   instance.defaults.headers.common.token = store.getState().token
+// })
 instance.interceptors.response.use((res) => {
   const data = res.data
   if (data.code === 0) {
