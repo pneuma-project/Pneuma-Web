@@ -1,4 +1,4 @@
-# 酒花商城后台管理系统
+# 后台管理系统
 
 ## 项目介绍
 - 项目由 `create-react-app` 创建。参考文档见 `create-react-app.md`
