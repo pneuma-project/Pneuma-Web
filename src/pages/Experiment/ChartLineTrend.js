@@ -8,46 +8,52 @@ export default class ChartLineTrend extends Chart {
     className: 'chart-wrapper-bar-dau'
   }
   static propTypes = {
-    data: PropTypes.array.isRequired
+    // data: PropTypes.array.isRequired
   }
   constructor(props) {
     super(props)
     this.range = []
   }
-  buildOptions(xAxis, yAxis, data, legendData) {
+  buildOptions(xAxis, yAxis, seriesData, legendData) {
     return {
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        axisLabel: {
+          formatter:function(value){
+            console.log(value,'----->xvalue')
+          }
+        }
       },
       yAxis: {
         type: 'value'
       },
       series: [
         {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          data: seriesData,
           type: 'line'
         }
       ]
     }
   }
   getData(nexProps) {
-    let data = nexProps.data
-    let xAxis = nexProps.xAxis || {}
+    let seriesData = nexProps.seriesData
+    let xAxis = nexProps.xAxisData || {}
     let yAxis = nexProps.yAxis || {}
     let legendData = nexProps.legendData
-    return this.buildOptions(xAxis, yAxis, data, legendData)
+    return this.buildOptions(xAxis, yAxis, seriesData, legendData)
   }
   componentDidMount() {
     // 重写父类
     // dom ready之后调用父类mount函数，初始化echarts
     super.componentDidMount()
-    this.initOptions()
+    this.initOptions(this.props)
+    console.log(this.props,'---->props')
   }
   componentWillReceiveProps(nexProps) {
-    if (this.props.data !== nexProps.data) {
+    console.log(nexProps,'nextprops')
+    // if (this.props.data !== nexProps.data) {
       this.initOptions(nexProps)
-    }
+    // }
   }
 
   initOptions() {
