@@ -1,5 +1,3 @@
-/** @format */
-
 import PropTypes from 'prop-types'
 import Chart from './Chart'
 import React from 'react'
@@ -14,59 +12,103 @@ export default class ChartLineTrend extends Chart {
     super(props)
     this.range = []
   }
-  buildOptions(xAxis, yAxis, seriesData, legendData) {
+  buildOptions(xAxis, yAxis, seriesData, legendData, trainData,yAxisName) {
     return {
-      xAxis: {
-        type: 'category',
-        axisLabel: {
-          formatter:function(value){
-            console.log(value,'----->xvalue')
-          }
+      tooltip: {
+        trigger: 'axis',
+        formatter: function (params) {
+            params = params[0];
+            var date = new Date(params.name);
+            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+        },
+        axisPointer: {
+            animation: false
         }
+    },
+      xAxis: {
+        type: 'time',
+        // data:xAxis,
+        // splitNumber:30,
+        nameLocation:'end',      
+        maxInterval: 3600 * 24 * 1000,
+        minInterval: 3600 * 24 * 1000,
+        splitLine: {
+          show:false
+        },
+        
+        axisLabel: {
+          interval: 0,
+          rotate:45,   
+          // formatter: function(val,index) { 
+          //   // console.log(val,'----------->val')
+          //   // console.log(index,'----------->index')
+          //   return val
+          // }
+        },
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        name: yAxisName,
+        // splitLine: {
+        //   show:false
+        // },
       },
       series: [
         {
           data: seriesData,
-          type: 'line'
+          lineStyle: {
+            color: '#0A4DAA'
+          },
+          type: 'line',
+          markLine: {
+            silent: true,
+            lineStyle: {
+              color: '#0A4DAA'
+            },
+            data: [{
+                yAxis: trainData,
+                lineStyle: {
+                  type:'solid'
+                }
+            }, {
+                yAxis: trainData * 0.8
+            }, {
+                yAxis: trainData * 1.2
+            }]
+        }
         }
       ]
     }
   }
   getData(nexProps) {
     let seriesData = nexProps.seriesData
+    let yAxisName  =  nexProps.yAxisName || ''
+    let trainData = nexProps.trainData || {}
     let xAxis = nexProps.xAxisData || {}
     let yAxis = nexProps.yAxis || {}
     let legendData = nexProps.legendData
-    return this.buildOptions(xAxis, yAxis, seriesData, legendData)
+    return this.buildOptions(xAxis, yAxis, seriesData, legendData, trainData, yAxisName)
   }
   componentDidMount() {
     // 重写父类
     // dom ready之后调用父类mount函数，初始化echarts
     super.componentDidMount()
     this.initOptions(this.props)
-    console.log(this.props,'---->props')
   }
   componentWillReceiveProps(nexProps) {
-    console.log(nexProps,'nextprops')
-    // if (this.props.data !== nexProps.data) {
+    if (this.props.seriesData !== nexProps.seriesData) {
       this.initOptions(nexProps)
-    // }
+    }
   }
 
-  initOptions() {
-    const newData = this.getData(this.props)
-    // 定制完成后，回写到state
-    this.setState(
-      {
-        options: newData
-      },
-      () => {
-        // draw
-        this.draw()
-      }
-    )
-  }
+  initOptions(nexProps) {
+    if (nexProps && nexProps.seriesData.length > 0) {
+        const newData = this.getData(nexProps);
+        this.drawData(newData);
+    } else {
+      // dom ready之后调用父类mount函数，初始化echarts
+      const newData = this.getData(this.props);
+      this.drawData(newData);
+    }
+}
 }

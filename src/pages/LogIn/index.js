@@ -24,11 +24,10 @@ class NormalLoginForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
         this.setState({
           loading: true
         })
-        const query = `username=${values.username}&password=49ba59abbe56e057`
+        const query = `username=${values.username}&password=${md5(values.password)}`
         const queryBody = `${values.username}&49ba59abbe56e057`
         // const instance = axios.create({
         //   baseURL: 'http://pneuma-admin.com/pneuma-manager/web/',
@@ -39,8 +38,6 @@ class NormalLoginForm extends React.Component {
           .post(`http://pneuma-admin.com/pneuma-manager/web/login?${query}`)
           .then((res) => {
             const { username, loginKey } = res.data.result
-            console.log(username, ' ---->username')
-            console.log(loginKey, '----->loginKey')
             message.success('登陆成功')
             this.props.logIn({
               token: loginKey,
@@ -50,7 +47,6 @@ class NormalLoginForm extends React.Component {
           .catch((err) => {
             // 重新
             // this.getCaptcha()
-            console.log(err, '------->err')
             this.setState({
               loading: false
             })

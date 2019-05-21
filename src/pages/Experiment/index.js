@@ -16,8 +16,8 @@ export default class Experiment extends Component {
     token: Auth.getToken(),
     xAxisHisData:[],
     seriesHisData:[],
-    xAxisTraiData:[],
-    seriesTraiData:[]
+    trainData:'',
+    timeData:[]
   }
 
   getTrainData = () => {
@@ -32,7 +32,8 @@ export default class Experiment extends Component {
       qs.stringify(params)
       )
       .then((res) => {
-        console.log(res,'----->res')
+        const { dataSum } = res.data.result
+        this.setState({trainData: dataSum})
       }).catch((err) => {
         console.log(err,'-------> getTrainData err')
       })
@@ -53,15 +54,26 @@ export default class Experiment extends Component {
       )
       .then((res) => {
        const { list } =  res.data.result
-       console.log(list,'--->result')
+       let dateList = list.map(item => {
+        return item.addDate
+       });
+     
        if(list.length > 0 ){
          this.setState({
-           xAxisHisData: list.map(item => {
-            return item.addDate
-           }),
+           xAxisHisData: dateList,
            seriesHisData: list.map((item) => {
-             return {name: item.addDate,value:item.dataSum}
-           })
+             return {
+               name:new Date(item.addDate).toString(),
+               value:[moment(item.addDate).format('YYYY/MM/DD'),item.dataSum]
+              }
+           }),
+           timeData: list.map((item) => {
+            return {
+              name:new Date(item.addDate).toString(),
+              value:[moment(item.addDate).format('YYYY/MM/DD'),Number(moment(item.addDate).format('HH'))]
+             }
+          }),
+           
          })
        }
        
@@ -72,11 +84,11 @@ export default class Experiment extends Component {
 
   componentDidMount() {
     this.getHistoryData()
+    this.getTrainData()
   }
 
   handleSearch = (value) => {
     const searchVal = value.trim() ? value.trim() : null
-
     this.setState({ searchVal }, () => {
       this.getTrainData()
       this.getHistoryData()
@@ -84,7 +96,7 @@ export default class Experiment extends Component {
   }
 
   render() {
-    const { xAxisHisData, seriesHisData} = this.state;
+    const { xAxisHisData, seriesHisData, trainData,timeData, searchVal} = this.state;
     return (
       <div className="wrapper">
         <div className="title-bar">
@@ -92,6 +104,7 @@ export default class Experiment extends Component {
           <Input.Search
             placeholder="input search text"
             onSearch={this.handleSearch}
+            defaultValue={searchVal}
             style={{ width: 200 }}
             enterButton
           />
@@ -99,7 +112,17 @@ export default class Experiment extends Component {
         <ChartLineTrend
           itemId={`${1}-bar-repeat1`}
           xAxisData={xAxisHisData}
+          seriesData={timeData}
+          yAxisName={'Hours'}
+          dummyTime={+new Date()}
+          domId={`chartKey-${0}-bar-repeat1`}
+        />
+        <ChartLineTrend
+          itemId={`${1}-bar-repeat1`}
+          xAxisData={xAxisHisData}
           seriesData={seriesHisData}
+          yAxisName={'L'}
+          trainData={trainData}
           dummyTime={+new Date()}
           domId={`chartKey-${1}-bar-repeat1`}
         />
