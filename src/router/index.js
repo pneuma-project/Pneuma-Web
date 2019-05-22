@@ -1,43 +1,43 @@
 /** @format */
 
-import React from 'react'
-import { Spin } from 'antd'
-import Loadable from 'react-loadable'
+import React from "react";
+import { Spin } from "antd";
+import Loadable from "react-loadable";
 
-const loading = () => <Spin />
+const loading = () => <Spin />;
 
-const asyncComponent = (component) =>
+const asyncComponent = component =>
   Loadable({
     loader: component,
     loading
-  })
+  });
 // 登录页面
 const LogIn = asyncComponent(() =>
-  import(/* webpackChunkName: "LogIn" */ '../pages/LogIn')
-)
+  import(/* webpackChunkName: "LogIn" */ "../pages/LogIn")
+);
 // 实验
 const Experiment = asyncComponent(() =>
-  import(/* webpackChunkName: "Experiment" */ '../pages/Experiment')
-)
+  import(/* webpackChunkName: "Experiment" */ "../pages/Experiment")
+);
 
 // 路由匹配默认是 exact: true ,并且需要验证
 const routes = [
   {
-    path: '/login',
+    path: "/login",
     // component: bundleHelper(LogIn)
     component: LogIn
   },
   {
-    path: '/experiment',
+    path: "/experiment",
     // component: bundleHelper(Experiment),
-    openKeys: ['experiment'],
+    openKeys: ["experiment"],
     children: [
       {
-        path: '/index',
+        path: "/index",
         component: Experiment
       }
     ]
   }
-]
+];
 
-export default routes
+export default routes;

@@ -1,15 +1,15 @@
 /** @format */
 
-import axios from 'axios'
-import { message } from 'antd'
-import store from '../redux/store'
+import axios from "axios";
+import { message } from "antd";
+import store from "../redux/store";
 // import history from '../history'
 // import Auth from '../auth'
-import { userLogOut } from '../redux/actions'
+import { userLogOut } from "../redux/actions";
 
 const instance = axios.create({
   // baseURL: '/admin'
-})
+});
 // // 有token的话就放在请求的头部
 // if (store.getState().token) {
 //   instance.defaults.headers.common.token = store.getState().token
@@ -19,29 +19,29 @@ const instance = axios.create({
 //   console.log('接受到store的变化')
 //   instance.defaults.headers.common.token = store.getState().token
 // })
-instance.interceptors.response.use((res) => {
-  const data = res.data
+instance.interceptors.response.use(res => {
+  const data = res.data;
   if (data.code === 0) {
-    return data.data
+    return data.data;
   }
   if (data.code === 401) {
-    console.warn('token 非法\n跳转到登录')
+    console.warn("token 非法\n跳转到登录");
     // 准备跳转到登录
-    store.dispatch(userLogOut())
+    store.dispatch(userLogOut());
     if (data.message) {
-      message.error(data.message)
+      message.error(data.message);
     }
-    return Promise.reject({ msg: 'token非法' })
+    return Promise.reject({ msg: "token非法" });
   }
-  console.error(data)
+  console.error(data);
   if (data.message) {
-    message.error(data.message)
+    message.error(data.message);
   }
   return Promise.reject({
     code: data.code,
     msg: data.message
-  })
-})
+  });
+});
 
 // export {instance as default, axios}
-export default instance
+export default instance;
