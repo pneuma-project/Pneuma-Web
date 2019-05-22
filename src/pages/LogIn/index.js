@@ -11,6 +11,7 @@ import './index.less'
 import axios from 'axios'
 import md5 from 'md5'
 import Base64 from 'base-64'
+import { MD5 } from '../../utils'
 const FormItem = Form.Item
 
 class NormalLoginForm extends React.Component {
@@ -27,7 +28,8 @@ class NormalLoginForm extends React.Component {
         this.setState({
           loading: true
         })
-        const query = `username=${values.username}&password=${md5(values.password)}`
+        var pwd = values.password
+        const query = `username=${values.username}&password=${pwd.MD5(16)}`
         const queryBody = `${values.username}&49ba59abbe56e057`
         // const instance = axios.create({
         //   baseURL: 'http://pneuma-admin.com/pneuma-manager/web/',

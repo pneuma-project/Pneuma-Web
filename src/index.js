@@ -19,7 +19,7 @@ import './iPad.less'
 // BrowserRouter 的实现细节: https://github.com/ReactTraining/react-router/issues/4059#issuecomment-306506430
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename="/pneuma">
+    <BrowserRouter basename="/pneuma-manager">
       <App />
     </BrowserRouter>
   </Provider>,
