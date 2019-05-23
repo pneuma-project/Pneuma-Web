@@ -7,7 +7,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import App from "./App";
 import store from "./redux/store";
 import registerServiceWorker from "./registerServiceWorker";
@@ -19,9 +19,9 @@ import "./iPad.less";
 // BrowserRouter 的实现细节: https://github.com/ReactTraining/react-router/issues/4059#issuecomment-306506430
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename="/pneuma-manager">
+    <HashRouter basename="/pneuma-manager">
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </Provider>,
   document.getElementById("root")
 );

@@ -26,7 +26,6 @@ module.exports = function override(config, env) {
        * add auto dll plugin
        */
       const dllConfig = {
-        devtool: false,
         inject: true, // will inject the DLL bundles to index.html
         debug: false,
         filename: '[name]_[hash].js',
@@ -79,8 +78,7 @@ module.exports = function override(config, env) {
    * loader antd less style if neccessary
    */
   config = injectBabelPlugin(
-    // ['import', { libraryName: 'antd', style: true }],
-    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }],
+    ['import', { libraryName: 'antd', style: true }],
     config
   )
 
