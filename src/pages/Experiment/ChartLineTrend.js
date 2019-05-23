@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import Chart from "./Chart";
 import React from "react";
+import { max } from "moment";
 export default class ChartLineTrend extends Chart {
   static defaultProps = {
     className: "chart-wrapper-bar-dau"
@@ -12,7 +13,7 @@ export default class ChartLineTrend extends Chart {
     super(props);
     this.range = [];
   }
-  buildOptions(xAxis, yAxis, seriesData, legendData, trainData, yAxisName) {
+  buildOptions(xAxis, yAxis, seriesData, legendData, trainData, yAxisName, yMaxValue) {
     return {
       tooltip: {
         trigger: "axis",
@@ -20,11 +21,11 @@ export default class ChartLineTrend extends Chart {
           params = params[0];
           var date = new Date(params.name);
           return (
-            date.getDate() +
+            date.getFullYear() +
             "/" +
             (date.getMonth() + 1) +
             "/" +
-            date.getFullYear() +
+            date.getDate() +
             " : " +
             params.value[1]
           );
@@ -37,11 +38,13 @@ export default class ChartLineTrend extends Chart {
         type: "time",
         // data:xAxis,
         // splitNumber:30,
+        name:'data',
         nameLocation: "end",
         maxInterval: 3600 * 24 * 1000,
         minInterval: 3600 * 24 * 1000,
+
         splitLine: {
-          show: false
+          show: true
         },
 
         axisLabel: {
@@ -56,7 +59,8 @@ export default class ChartLineTrend extends Chart {
       },
       yAxis: {
         type: "value",
-        name: yAxisName
+        name: yAxisName,
+        max: yMaxValue
         // splitLine: {
         //   show:false
         // },
@@ -95,6 +99,7 @@ export default class ChartLineTrend extends Chart {
   getData(nexProps) {
     let seriesData = nexProps.seriesData;
     let yAxisName = nexProps.yAxisName || "";
+    let yMaxValue = nexProps.yMaxValue || {};
     let trainData = nexProps.trainData || {};
     let xAxis = nexProps.xAxisData || {};
     let yAxis = nexProps.yAxis || {};
@@ -105,7 +110,8 @@ export default class ChartLineTrend extends Chart {
       seriesData,
       legendData,
       trainData,
-      yAxisName
+      yAxisName,
+      yMaxValue
     );
   }
   componentDidMount() {

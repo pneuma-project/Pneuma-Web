@@ -82,7 +82,7 @@ export default class Experiment extends Component {
                 return {
                   name: new Date(item.addDate).toString(),
                   value: [
-                    moment(item.addDate).format("YYYY/MM/DD"),
+                    moment(item.addDate).format("YYYY/MM/DD HH:MM"),
                     item.dataSum
                   ]
                 };
@@ -91,7 +91,7 @@ export default class Experiment extends Component {
                 return {
                   name: new Date(item.addDate).toString(),
                   value: [
-                    moment(item.addDate).format("YYYY/MM/DD"),
+                    moment(item.addDate).format("YYYY/MM/DD HH:MM"),
                     Number(moment(item.addDate).format("HH"))
                   ]
                 };
@@ -145,6 +145,7 @@ export default class Experiment extends Component {
           yAxisName={"Hours"}
           dummyTime={+new Date()}
           domId={`chartKey-${0}-bar-repeat1`}
+          yMaxValue={24}
         />
         <ChartLineTrend
           itemId={`${1}-bar-repeat1`}
@@ -154,6 +155,7 @@ export default class Experiment extends Component {
           trainData={trainData}
           dummyTime={+new Date()}
           domId={`chartKey-${1}-bar-repeat1`}
+          yMaxValue={'dataMax'}
         />
       </div>
     );
