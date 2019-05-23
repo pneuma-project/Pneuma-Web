@@ -32,3 +32,9 @@ ant.design 的中的 Sider 组件会引起 Layout 组件的多次渲染，相关
 
 ## TODO
 - webpack-dev-server hot update
+
+
+后台管理系统地址：http://pneuma-admin.com/pneuma-manager/ index.html
+
+api请求地址：http://pneuma-admin.com/pneuma-api/               
+ 管理后台请求地址：http://pneuma-admin.com/pneuma-manager/     
