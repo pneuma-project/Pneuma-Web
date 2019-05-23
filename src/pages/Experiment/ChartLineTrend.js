@@ -1,54 +1,62 @@
-import PropTypes from 'prop-types'
-import Chart from './Chart'
-import React from 'react'
+import PropTypes from "prop-types";
+import Chart from "./Chart";
+import React from "react";
 export default class ChartLineTrend extends Chart {
   static defaultProps = {
-    className: 'chart-wrapper-bar-dau'
-  }
+    className: "chart-wrapper-bar-dau"
+  };
   static propTypes = {
     // data: PropTypes.array.isRequired
-  }
+  };
   constructor(props) {
-    super(props)
-    this.range = []
+    super(props);
+    this.range = [];
   }
-  buildOptions(xAxis, yAxis, seriesData, legendData, trainData,yAxisName) {
+  buildOptions(xAxis, yAxis, seriesData, legendData, trainData, yAxisName) {
     return {
       tooltip: {
-        trigger: 'axis',
-        formatter: function (params) {
-            params = params[0];
-            var date = new Date(params.name);
-            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+        trigger: "axis",
+        formatter: function(params) {
+          params = params[0];
+          var date = new Date(params.name);
+          return (
+            date.getDate() +
+            "/" +
+            (date.getMonth() + 1) +
+            "/" +
+            date.getFullYear() +
+            " : " +
+            params.value[1]
+          );
         },
         axisPointer: {
-            animation: false
+          animation: false
         }
-    },
+      },
       xAxis: {
-        type: 'time',
+        type: "time",
         // data:xAxis,
         // splitNumber:30,
-        nameLocation:'end',      
+        nameLocation: "end",
         maxInterval: 3600 * 24 * 1000,
         minInterval: 3600 * 24 * 1000,
         splitLine: {
-          show:false
+          show: false
         },
-        
+
         axisLabel: {
           interval: 0,
-          rotate:45,   
-          // formatter: function(val,index) { 
+          rotate: 45
+          // formatter: function(val,index) {
           //   // console.log(val,'----------->val')
           //   // console.log(index,'----------->index')
           //   return val
           // }
-        },
+        }
       },
       yAxis: {
-        type: 'value',
-        name: yAxisName,
+        type: "value",
+        name: yAxisName
         // splitLine: {
         //   show:false
         // },
@@ -57,58 +65,69 @@ export default class ChartLineTrend extends Chart {
         {
           data: seriesData,
           lineStyle: {
-            color: '#0A4DAA'
+            color: "#0A4DAA"
           },
-          type: 'line',
+          type: "line",
           markLine: {
             silent: true,
             lineStyle: {
-              color: '#0A4DAA'
+              color: "#0A4DAA"
             },
-            data: [{
+            data: [
+              {
                 yAxis: trainData,
                 lineStyle: {
-                  type:'solid'
+                  type: "solid"
                 }
-            }, {
+              },
+              {
                 yAxis: trainData * 0.8
-            }, {
+              },
+              {
                 yAxis: trainData * 1.2
-            }]
-        }
+              }
+            ]
+          }
         }
       ]
-    }
+    };
   }
   getData(nexProps) {
-    let seriesData = nexProps.seriesData
-    let yAxisName  =  nexProps.yAxisName || ''
-    let trainData = nexProps.trainData || {}
-    let xAxis = nexProps.xAxisData || {}
-    let yAxis = nexProps.yAxis || {}
-    let legendData = nexProps.legendData
-    return this.buildOptions(xAxis, yAxis, seriesData, legendData, trainData, yAxisName)
+    let seriesData = nexProps.seriesData;
+    let yAxisName = nexProps.yAxisName || "";
+    let trainData = nexProps.trainData || {};
+    let xAxis = nexProps.xAxisData || {};
+    let yAxis = nexProps.yAxis || {};
+    let legendData = nexProps.legendData;
+    return this.buildOptions(
+      xAxis,
+      yAxis,
+      seriesData,
+      legendData,
+      trainData,
+      yAxisName
+    );
   }
   componentDidMount() {
     // 重写父类
     // dom ready之后调用父类mount函数，初始化echarts
-    super.componentDidMount()
-    this.initOptions(this.props)
+    super.componentDidMount();
+    this.initOptions(this.props);
   }
   componentWillReceiveProps(nexProps) {
     if (this.props.seriesData !== nexProps.seriesData) {
-      this.initOptions(nexProps)
+      this.initOptions(nexProps);
     }
   }
 
   initOptions(nexProps) {
     if (nexProps && nexProps.seriesData.length > 0) {
-        const newData = this.getData(nexProps);
-        this.drawData(newData);
+      const newData = this.getData(nexProps);
+      this.drawData(newData);
     } else {
       // dom ready之后调用父类mount函数，初始化echarts
       const newData = this.getData(this.props);
       this.drawData(newData);
     }
-}
+  }
 }

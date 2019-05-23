@@ -1,102 +1,131 @@
 /** @format */
 
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import ChartLineTrend from './ChartLineTrend'
-import { Input } from 'antd'
-import moment from 'moment'
-import { auth as Auth } from '../../utils'
-import './index.less'
-import qs from 'qs'
-import axios from 'axios'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import ChartLineTrend from "./ChartLineTrend";
+import { Input, message } from "antd";
+import moment from "moment";
+import { auth as Auth } from "../../utils";
+import "./index.less";
+import qs from "qs";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
 
+@withRouter
 export default class Experiment extends Component {
   state = {
-    searchVal: '13055082954',
+    searchVal: "13055082954",
     token: Auth.getToken(),
-    xAxisHisData:[],
-    seriesHisData:[],
-    trainData:'',
-    timeData:[]
-  }
+    xAxisHisData: [],
+    seriesHisData: [],
+    trainData: "",
+    timeData: []
+  };
 
   getTrainData = () => {
-    const { searchVal, token } = this.state
+    const { searchVal, token } = this.state;
     let params = {
       key: searchVal,
       loginKey: token
-    }
+    };
+    const _self = this;
     axios
       .post(
         `http://pneuma-admin.com/pneuma-manager/web/suck/fog/get/train/data`,
-      qs.stringify(params)
+        qs.stringify(params)
       )
-      .then((res) => {
-        const { dataSum } = res.data.result
-        this.setState({trainData: dataSum})
-      }).catch((err) => {
-        console.log(err,'-------> getTrainData err')
+      .then(res => {
+        console.log(res, "----->res.code");
+        if (res.data.code === 200) {
+          const { dataSum } = res.data.result;
+          this.setState({ trainData: dataSum });
+        }
+        if (res.data.code === 500 && res.data.message === "4000006") {
+          localStorage.removeItem("PNEUMA_TOKEN");
+          message.error("Login invalid");
+        }
       })
-  }
+      .catch(err => {
+        console.log(err, "-------> getTrainData err");
+      });
+  };
 
   getHistoryData = () => {
-    const { searchVal, token } = this.state
+    const { searchVal, token } = this.state;
     let params = {
       key: searchVal,
       loginKey: token,
       currentPageNo: 1,
       pageSize: 999
-    }
+    };
+    const _self = this;
     axios
       .post(
         `http://pneuma-admin.com/pneuma-manager/web/suck/fog/get/history/data`,
-      qs.stringify(params)
+        qs.stringify(params)
       )
-      .then((res) => {
-       const { list } =  res.data.result
-       let dateList = list.map(item => {
-        return item.addDate
-       });
-     
-       if(list.length > 0 ){
-         this.setState({
-           xAxisHisData: dateList,
-           seriesHisData: list.map((item) => {
-             return {
-               name:new Date(item.addDate).toString(),
-               value:[moment(item.addDate).format('YYYY/MM/DD'),item.dataSum]
-              }
-           }),
-           timeData: list.map((item) => {
-            return {
-              name:new Date(item.addDate).toString(),
-              value:[moment(item.addDate).format('YYYY/MM/DD'),Number(moment(item.addDate).format('HH'))]
-             }
-          }),
-           
-         })
-       }
-       
-      }).catch((err) => {
-        console.log(err,'-------> getHistoryData err')
+      .then(res => {
+        if (res.data.code === 500 && res.data.message === "4000006") {
+          localStorage.removeItem("PNEUMA_TOKEN");
+          message.error("Login invalid");
+        }
+        if (res.data.code === 200) {
+          const { list } = res.data.result;
+          let dateList = list.map(item => {
+            return item.addDate;
+          });
+
+          if (list.length > 0) {
+            this.setState({
+              xAxisHisData: dateList,
+              seriesHisData: list.map(item => {
+                return {
+                  name: new Date(item.addDate).toString(),
+                  value: [
+                    moment(item.addDate).format("YYYY/MM/DD"),
+                    item.dataSum
+                  ]
+                };
+              }),
+              timeData: list.map(item => {
+                return {
+                  name: new Date(item.addDate).toString(),
+                  value: [
+                    moment(item.addDate).format("YYYY/MM/DD"),
+                    Number(moment(item.addDate).format("HH"))
+                  ]
+                };
+              })
+            });
+          }
+        }
       })
-  }
+      .catch(err => {
+        console.log(err, "-------> getHistoryData err");
+      });
+  };
 
   componentDidMount() {
-    this.getHistoryData()
-    this.getTrainData()
+    this.getHistoryData();
+    this.getTrainData();
   }
 
-  handleSearch = (value) => {
-    const searchVal = value.trim() ? value.trim() : null
+  handleSearch = value => {
+    const searchVal = value.trim() ? value.trim() : null;
     this.setState({ searchVal }, () => {
-      this.getTrainData()
-      this.getHistoryData()
-    })
-  }
+      this.getTrainData();
+      this.getHistoryData();
+    });
+  };
 
   render() {
-    const { xAxisHisData, seriesHisData, trainData,timeData, searchVal} = this.state;
+    const {
+      xAxisHisData,
+      seriesHisData,
+      trainData,
+      timeData,
+      searchVal
+    } = this.state;
     return (
       <div className="wrapper">
         <div className="title-bar">
@@ -113,7 +142,7 @@ export default class Experiment extends Component {
           itemId={`${1}-bar-repeat1`}
           xAxisData={xAxisHisData}
           seriesData={timeData}
-          yAxisName={'Hours'}
+          yAxisName={"Hours"}
           dummyTime={+new Date()}
           domId={`chartKey-${0}-bar-repeat1`}
         />
@@ -121,12 +150,12 @@ export default class Experiment extends Component {
           itemId={`${1}-bar-repeat1`}
           xAxisData={xAxisHisData}
           seriesData={seriesHisData}
-          yAxisName={'L'}
+          yAxisName={"L"}
           trainData={trainData}
           dummyTime={+new Date()}
           domId={`chartKey-${1}-bar-repeat1`}
         />
       </div>
-    )
+    );
   }
 }

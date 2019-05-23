@@ -4,15 +4,15 @@
  * @format
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App'
-import store from './redux/store'
-import registerServiceWorker from './registerServiceWorker'
-import './index.less'
-import './iPad.less'
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import store from "./redux/store";
+import registerServiceWorker from "./registerServiceWorker";
+import "./index.less";
+import "./iPad.less";
 // import 'draft-js/dist/t.css'
 // 我们需要一个自定义的 history 对象。所以这里直接使用 <Router/> 而非 <BrowserRouter />
 // BrowserRouter 有一个 basename 的 props，但是 Router 没有。再 history 创建时，可以设置 basename
@@ -23,6 +23,6 @@ ReactDOM.render(
       <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
-)
-registerServiceWorker()
+  document.getElementById("root")
+);
+registerServiceWorker();
