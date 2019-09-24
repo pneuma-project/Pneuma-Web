@@ -1,0 +1,52 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "jest": true
+  },
+  "extends": [
+    "react-app",
+    "plugin:flowtype/recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react",
+    "prettier/standard"
+  ],
+  "plugins": [
+    "jsx-a11y",
+    "flowtype",
+    "react",
+    "prettier",
+    "standard"
+  ],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "bracketSpacing": true
+    }],
+    "lines-around-comment": [
+      "error",
+      {
+        "beforeBlockComment": true,
+        "afterBlockComment": false,
+        "beforeLineComment": true,
+        "afterLineComment": false,
+        "allowBlockStart": true,
+        "allowBlockEnd": true,
+        "allowObjectStart": true,
+        "allowObjectEnd": true,
+        "allowArrayStart": true,
+        "allowArrayEnd": true
+      }
+    ],
+    "no-tabs": "error",
+    "no-unexpected-multiline": "warn",
+    "no-unused-vars": "warn",
+    "no-const-assign": "error",
+    "no-var": "error",
+    "max-len": ["error", { "code": 100, "ignoreUrls": true }],
+    "array-bracket-spacing": "error",
+    "react/prop-types":"off"
+  }
+}

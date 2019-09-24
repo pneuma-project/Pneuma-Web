@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter, Route, Redirect, Switch } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Menu } from "antd";
 import { hot } from "react-hot-loader";
 import Experiment from "./pages/Experiment";
 import routes from "./router";
@@ -19,6 +19,22 @@ class App extends React.Component {
     return (
       <div className="App">
         <Layout>
+          <Menu
+          className='app-lefter'
+            defaultSelectedKeys={['1']}
+            // defaultOpenKeys={['sub1']}
+            mode="inline"
+            // theme="dark"
+            // inlineCollapsed={this.state.collapsed}
+          >
+            <Menu.Item key="1">
+              <span>Option 1</span>
+            </Menu.Item>
+          </Menu>
+          {/* <div> */}
+          <header className='app-top'>
+            <span>用户名</span>
+          </header>
           <Switch>
             <Route
               exact
@@ -36,6 +52,7 @@ class App extends React.Component {
               render={() => (auth ? <Experiment /> : <Redirect to="/login" />)}
             />
           </Switch>
+          {/* </div> */}
         </Layout>
       </div>
     );

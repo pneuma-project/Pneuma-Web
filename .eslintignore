@@ -1,0 +1,7 @@
+build/*.js
+node_modules/
+mock/
+
+src/registerServiceWorker.js
+src/utils/api.js
+config-overrides.js
